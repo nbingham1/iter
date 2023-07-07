@@ -1,23 +1,9 @@
 package iter
 
-import "sort"
-
 type Zipper[T interface{}] struct {
 	Slices [][]T
 	Index int
 	Count int
-}
-
-func (i *Zipper[T]) Len() int {
-	return len(i.Slices)
-}
-
-func (i *Zipper[T]) Swap(j, k int) {
-	i.Slices[j], i.Slices[k] = i.Slices[k], i.Slices[j]
-}
-
-func (i *Zipper[T]) Less(j, k int) bool {
-	return len(i.Slices[j]) > len(i.Slices[k])
 }
 
 func Zip[T interface{}](Slices ...[]T) *Zipper[T] {
@@ -45,7 +31,6 @@ func ZipIterables[T interface{}](Slice ...Iterable[T]) *Zipper[T] {
 			result.Count = i.Size()
 		}
 	}
-	sort.Sort(result)
 	return result
 }
 
@@ -64,10 +49,9 @@ func (i *Zipper[T]) Next() {
 func (i *Zipper[T]) Get() []T {
 	result := make([]T, 0, len(i.Slices))
 	for _, slice := range i.Slices {
-		if i.Index >= len(slice) {
-			return result
+		if i.Index < len(slice) {
+			result = append(result, slice[i.Index])
 		}
-		result = append(result, slice[i.Index])
 	}
 	return result
 }
@@ -75,10 +59,9 @@ func (i *Zipper[T]) Get() []T {
 func (i *Zipper[T]) Ptr() []*T {
 	result := make([]*T, 0, len(i.Slices))
 	for _, slice := range i.Slices {
-		if i.Index >= len(slice) {
-			return result
+		if i.Index < len(slice) {
+			result = append(result, &slice[i.Index])
 		}
-		result = append(result, &slice[i.Index])
 	}
 	return result
 }
