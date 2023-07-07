@@ -1,5 +1,13 @@
 package iter
 
+func ToSlice[T interface{}](ptr *T) []T {
+	return *(*[]T)(unsafe.Pointer(&struct{
+		addr uintptr
+		len int
+		cap int
+	}{ptr,1,1}))
+}
+
 type Iterable[T interface{}] interface {
 	Iterate() *Iterator[T]
 }
