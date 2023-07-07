@@ -4,12 +4,12 @@ type Permutator[T interface{}] struct {
 	Index []*Iterator[T]
 }
 
-func Permute[T interface{}](Slices ...[]T) *Permutator[T] {
+func Permute[T interface{}](Slices ...interface{}) *Permutator[T] {
 	result := &Permutator[T]{
 		Index: make([]*Iterator[T], 0, len(Slices)),
 	}
 	for _, s := range Slices {
-		result.Index = append(result.Index, Iterate[T](s))
+		result.Index = append(result.Index, Iterate[T](s.([]T)))
 	}
 	return result
 }
