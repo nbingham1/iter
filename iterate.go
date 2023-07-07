@@ -1,4 +1,4 @@
-package boolean
+package iter
 
 type Iterable[T interface{}] interface {
 	Iterate() *Iterator[T]

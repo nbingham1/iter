@@ -1,4 +1,4 @@
-package boolean
+package iter
 
 type Zipper[T interface{}] struct {
 	Slices [][]T

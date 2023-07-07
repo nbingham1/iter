@@ -1,4 +1,4 @@
-package boolean
+package iter
 
 type Permutator[T interface{}] struct {
 	Index []*Iterator[T]
