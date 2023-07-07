@@ -2,15 +2,14 @@ package iter
 
 type Iterable[T interface{}] interface {
 	Iterate() *Iterator[T]
-	IterSize() int
 }
 
 func MaxSize[T interface{}](i ...Iterable[T]) int {
 	result := 0
 	for _, j := range i {
-		test := j.IterSize()
-		if test > result {
-			result = test
+		test := j.Iterate()
+		if test.Size() > result {
+			result = test.Size()
 		}
 	}
 	return result
@@ -19,9 +18,9 @@ func MaxSize[T interface{}](i ...Iterable[T]) int {
 func MinSize[T interface{}](i ...Iterable[T]) int {
 	result := -1
 	for _, j := range i {
-		test := j.IterSize()
-		if result < 0 || test < result {
-			result = test
+		test := j.Iterate()
+		if result < 0 || test.Size() < result {
+			result = test.Size()
 		}
 	}
 	return result
@@ -30,7 +29,7 @@ func MinSize[T interface{}](i ...Iterable[T]) int {
 func SumSize[T interface{}](i ...Iterable[T]) int {
 	result := 0
 	for _, j := range i {
-		result += j.IterSize()
+		result += j.Iterate().Size()
 	}
 	return result
 }
@@ -38,7 +37,7 @@ func SumSize[T interface{}](i ...Iterable[T]) int {
 func MulSize[T interface{}](i ...Iterable[T]) int {
 	result := 1
 	for _, j := range i {
-		result *= j.IterSize()
+		result *= j.Iterate().Size()
 	}
 	return result
 }
